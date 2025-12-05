@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  scrob-ui:
+    build: .
+    ports:
+      - "8080:80"
+    environment:
+      # API URL will be baked into the build
+      # For runtime configuration, see README.md
+      - VITE_API_URL=http://localhost:3000
+    restart: unless-stopped
+
+# To run with the scrob server:
+# 1. Make sure scrob server is running on port 3000
+# 2. Run: docker-compose up -d
+# 3. Access UI at http://localhost:8080

@@ -70,6 +70,19 @@ npm run build
 Built files will be in the `dist/` directory. Serve them with any static file
 server.
 
+## Deployment
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) for deployment instructions including:
+- Docker deployment (recommended)
+- Combined full-stack docker-compose
+- Static file deployment to nginx/Apache
+- Production setup with HTTPS
+
+Quick Docker start:
+```bash
+docker-compose up -d
+```
+
 ## Tech Stack
 
 - Svelte 5
