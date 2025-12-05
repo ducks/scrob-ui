@@ -1,39 +1,96 @@
-# Svelte + Vite
+# scrob-ui
 
-This template should help get you started developing with Svelte in Vite.
+Web interface for the scrob music scrobbling server.
 
-## Need an official Svelte framework?
+## Features
 
-Check out [SvelteKit](https://github.com/sveltejs/kit#readme), which is also powered by Vite. Deploy anywhere with its serverless-first approach and adapt to various platforms, with out of the box support for TypeScript, SCSS, and Less, and easily-added support for mdsvex, GraphQL, PostCSS, Tailwind CSS, and more.
+- Login with username/password authentication
+- View recent scrobbles
+- Browse top artists and tracks
+- Token-based session management with localStorage persistence
+- Responsive layout with clean purple gradient theme
 
-## Technical considerations
+## Prerequisites
 
-**Why use this over SvelteKit?**
+- Node.js 22 (via Nix shell)
+- Running scrob server (see [../scrob](../scrob))
 
-- It brings its own routing solution which might not be preferable for some users.
-- It is first and foremost a framework that just happens to use Vite under the hood, not a Vite app.
+## Development Setup
 
-This template contains as little as possible to get started with Vite + Svelte, while taking into account the developer experience with regards to HMR and intellisense. It demonstrates capabilities on par with the other `create-vite` templates and is a good starting point for beginners dipping their toes into a Vite + Svelte project.
+### With Nix (Recommended)
 
-Should you later need the extended capabilities and extensibility provided by SvelteKit, the template has been structured similarly to SvelteKit so that it is easy to migrate.
+```bash
+# Enter development environment
+nix-shell
 
-**Why include `.vscode/extensions.json`?**
+# Install dependencies
+npm install
 
-Other templates indirectly recommend extensions via the README, but this file allows VS Code to prompt the user to install the recommended extension upon opening the project.
-
-**Why enable `checkJs` in the JS template?**
-
-It is likely that most cases of changing variable types in runtime are likely to be accidental, rather than deliberate. This provides advanced typechecking out of the box. Should you like to take advantage of the dynamically-typed nature of JavaScript, it is trivial to change the configuration.
-
-**Why is HMR not preserving my local component state?**
-
-HMR state preservation comes with a number of gotchas! It has been disabled by default in both `svelte-hmr` and `@sveltejs/vite-plugin-svelte` due to its often surprising behavior. You can read the details [here](https://github.com/sveltejs/svelte-hmr/tree/master/packages/svelte-hmr#preservation-of-local-state).
-
-If you have state that's important to retain within a component, consider creating an external store which would not be replaced by HMR.
-
-```js
-// store.js
-// An extremely simple external store
-import { writable } from 'svelte/store'
-export default writable(0)
+# Start dev server
+npm run dev
 ```
+
+### Without Nix
+
+Ensure you have Node.js 22+ installed:
+
+```bash
+# Install dependencies
+npm install
+
+# Start dev server
+npm run dev
+```
+
+The UI will be available at `http://localhost:5173`.
+
+## Configuration
+
+The UI connects to the scrob server at `http://localhost:3000` by default. To
+use a different API URL, create a `.env` file:
+
+```bash
+VITE_API_URL=http://your-server:3000
+```
+
+## Usage
+
+1. Start the scrob server (see server README)
+2. Start the UI dev server with `npm run dev`
+3. Visit `http://localhost:5173`
+4. Login with your credentials
+5. Browse your scrobbles and stats
+
+## Production Build
+
+```bash
+npm run build
+```
+
+Built files will be in the `dist/` directory. Serve them with any static file
+server.
+
+## Tech Stack
+
+- Svelte 5
+- Vite 7
+- Vanilla CSS (no frameworks)
+
+## Project Structure
+
+```
+src/
+├── App.svelte           - Main app component with auth routing
+├── lib/
+│   ├── Login.svelte     - Login form component
+│   ├── RecentScrobbles.svelte  - Recent listens view
+│   ├── TopStats.svelte  - Top artists/tracks view
+│   ├── auth.js          - Authentication store
+│   ├── api.js           - API client
+│   └── utils.js         - Utility functions
+└── main.js              - App entry point
+```
+
+## License
+
+MIT OR Apache-2.0
