@@ -1,11 +1,19 @@
+import { get } from 'svelte/store';
+import { auth } from './auth.js';
+
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-const API_TOKEN = import.meta.env.VITE_API_TOKEN;
 
 async function fetchAPI(endpoint, options = {}) {
+  const { token } = get(auth);
+
+  if (!token) {
+    throw new Error('Not authenticated');
+  }
+
   const response = await fetch(`${API_URL}${endpoint}`, {
     ...options,
     headers: {
-      'Authorization': `Bearer ${API_TOKEN}`,
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
       ...options.headers,
     },

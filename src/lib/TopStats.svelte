@@ -62,8 +62,9 @@
 
 <style>
   .top-stats {
-    max-width: 1200px;
-    margin: 2rem auto;
+    max-width: 100rem;
+    margin: 0 auto;
+    padding: 0 2rem;
   }
 
   .loading, .error {
@@ -78,7 +79,7 @@
 
   .stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
     gap: 2rem;
   }
 

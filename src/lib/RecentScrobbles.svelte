@@ -47,8 +47,9 @@
 
 <style>
   .recent-scrobbles {
-    max-width: 800px;
+    max-width: 87.5rem;
     margin: 0 auto;
+    padding: 0 2rem;
   }
 
   h2 {
