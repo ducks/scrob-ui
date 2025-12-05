@@ -1,39 +1,62 @@
 <script>
+  import Login from './lib/Login.svelte';
   import RecentScrobbles from './lib/RecentScrobbles.svelte';
   import TopStats from './lib/TopStats.svelte';
+  import { auth } from './lib/auth.js';
 
-  let currentView = 'recent'; // 'recent' or 'stats'
+  let currentView = 'recent';
+
+  function handleLogin(event) {
+    const { token, username } = event.detail;
+    auth.login(token, username);
+  }
+
+  function handleLogout() {
+    auth.logout();
+  }
 </script>
 
-<main>
-  <header>
-    <h1>🎵 Scrob</h1>
-    <p class="tagline">Your personal scrobble tracker</p>
+{#if $auth.isAuthenticated}
+  <main>
+    <header>
+      <div class="header-content">
+        <div>
+          <h1>🎵 Scrob</h1>
+          <p class="tagline">Your personal scrobble tracker</p>
+        </div>
+        <div class="user-info">
+          <span class="username">{$auth.username}</span>
+          <button class="logout-btn" on:click={handleLogout}>Log Out</button>
+        </div>
+      </div>
 
-    <nav>
-      <button
-        class:active={currentView === 'recent'}
-        on:click={() => currentView = 'recent'}
-      >
-        Recent
-      </button>
-      <button
-        class:active={currentView === 'stats'}
-        on:click={() => currentView = 'stats'}
-      >
-        Stats
-      </button>
-    </nav>
-  </header>
+      <nav>
+        <button
+          class:active={currentView === 'recent'}
+          on:click={() => currentView = 'recent'}
+        >
+          Recent
+        </button>
+        <button
+          class:active={currentView === 'stats'}
+          on:click={() => currentView = 'stats'}
+        >
+          Stats
+        </button>
+      </nav>
+    </header>
 
-  <div class="content">
-    {#if currentView === 'recent'}
-      <RecentScrobbles />
-    {:else}
-      <TopStats />
-    {/if}
-  </div>
-</main>
+    <div class="content">
+      {#if currentView === 'recent'}
+        <RecentScrobbles />
+      {:else}
+        <TopStats />
+      {/if}
+    </div>
+  </main>
+{:else}
+  <Login on:login={handleLogin} />
+{/if}
 
 <style>
   :global(body) {
@@ -55,8 +78,14 @@
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     padding: 2rem;
-    text-align: center;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
   }
 
   h1 {
@@ -66,19 +95,46 @@
   }
 
   .tagline {
-    margin: 0.5rem 0 1.5rem;
+    margin: 0.5rem 0 0;
     opacity: 0.9;
     font-size: 1.1rem;
+  }
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .username {
+    font-weight: 500;
+    font-size: 1rem;
+  }
+
+  .logout-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .logout-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
   }
 
   nav {
     display: flex;
     gap: 1rem;
     justify-content: center;
-    margin-top: 1.5rem;
   }
 
-  button {
+  nav button {
     padding: 0.75rem 2rem;
     font-size: 1rem;
     font-weight: 500;
@@ -90,18 +146,18 @@
     transition: all 0.2s;
   }
 
-  button:hover {
+  nav button:hover {
     background: rgba(255, 255, 255, 0.2);
     border-color: rgba(255, 255, 255, 0.5);
   }
 
-  button.active {
+  nav button.active {
     background: white;
     color: #667eea;
     border-color: white;
   }
 
   .content {
-    padding: 2rem 1rem;
+    padding: 3rem 2rem;
   }
 </style>
