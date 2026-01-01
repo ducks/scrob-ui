@@ -1,22 +1,51 @@
 <script>
+  import { onMount } from 'svelte';
   import Login from './lib/Login.svelte';
+  import PublicProfile from './lib/PublicProfile.svelte';
   import RecentScrobbles from './lib/RecentScrobbles.svelte';
   import TopStats from './lib/TopStats.svelte';
   import { auth } from './lib/auth.js';
 
   let currentView = 'recent';
+  let route = { type: 'home' };
+
+  onMount(() => {
+    updateRoute();
+    // Listen for navigation events
+    window.addEventListener('popstate', updateRoute);
+    return () => window.removeEventListener('popstate', updateRoute);
+  });
+
+  function updateRoute() {
+    const path = window.location.pathname;
+
+    // Check if viewing a public profile (/username or /users/username)
+    const match = path.match(/^\/(?:users\/)?([^\/]+)$/);
+    if (match && match[1] !== '') {
+      route = { type: 'profile', username: match[1] };
+    } else {
+      route = { type: 'home' };
+    }
+  }
 
   function handleLogin(event) {
     const { token, username } = event.detail;
     auth.login(token, username);
+    // Navigate to home after login
+    window.history.pushState({}, '', '/');
+    updateRoute();
   }
 
   function handleLogout() {
     auth.logout();
+    window.history.pushState({}, '', '/');
+    updateRoute();
   }
 </script>
 
-{#if $auth.isAuthenticated}
+{#if route.type === 'profile'}
+  <PublicProfile username={route.username} />
+{:else if $auth.isAuthenticated}
   <main>
     <header>
       <div class="header-content">
