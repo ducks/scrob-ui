@@ -38,6 +38,10 @@ export async function getTopTracks(limit = 10) {
   return fetchAPI(`/top/tracks?limit=${limit}`);
 }
 
+export async function getTopAlbums(limit = 10) {
+  return fetchAPI(`/top/albums?limit=${limit}`);
+}
+
 // Public API functions (no authentication required)
 
 async function fetchPublicAPI(endpoint) {
@@ -66,4 +70,8 @@ export async function getPublicTopArtists(username, limit = 10) {
 
 export async function getPublicTopTracks(username, limit = 10) {
   return fetchPublicAPI(`/users/${username}/top/tracks?limit=${limit}`);
+}
+
+export async function getPublicTopAlbums(username, limit = 10) {
+  return fetchPublicAPI(`/users/${username}/top/albums?limit=${limit}`);
 }
