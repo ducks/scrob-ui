@@ -1,17 +1,19 @@
 <script>
   import { onMount } from 'svelte';
-  import { getTopArtists, getTopTracks } from './api.js';
+  import { getTopArtists, getTopTracks, getTopAlbums } from './api.js';
 
   let topArtists = [];
   let topTracks = [];
+  let topAlbums = [];
   let loading = true;
   let error = null;
 
   onMount(async () => {
     try {
-      [topArtists, topTracks] = await Promise.all([
+      [topArtists, topTracks, topAlbums] = await Promise.all([
         getTopArtists(10),
-        getTopTracks(10)
+        getTopTracks(10),
+        getTopAlbums(10)
       ]);
       loading = false;
     } catch (e) {
@@ -52,6 +54,22 @@
                 <div class="artist">{track.artist}</div>
               </div>
               <span class="count">{track.count} plays</span>
+            </div>
+          {/each}
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <h3>Top Albums</h3>
+        <div class="stat-list">
+          {#each topAlbums as album, index}
+            <div class="stat-item">
+              <span class="rank">{index + 1}</span>
+              <div class="track-details">
+                <div class="name">{album.album}</div>
+                <div class="artist">{album.artist}</div>
+              </div>
+              <span class="count">{album.count} plays</span>
             </div>
           {/each}
         </div>
@@ -122,10 +140,12 @@
     flex: 1;
     font-weight: 500;
     color: #222;
+    text-align: left;
   }
 
   .track-details {
     flex: 1;
+    text-align: left;
   }
 
   .track-details .name {

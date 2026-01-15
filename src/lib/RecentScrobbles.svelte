@@ -90,6 +90,7 @@
 
   .track-info {
     flex: 1;
+    text-align: left;
   }
 
   .track-name {
@@ -97,17 +98,20 @@
     font-size: 1rem;
     color: #222;
     margin-bottom: 0.25rem;
+    text-align: left;
   }
 
   .artist-name {
     font-size: 0.875rem;
     color: #666;
+    text-align: left;
   }
 
   .album-name {
     font-size: 0.75rem;
     color: #999;
     margin-top: 0.125rem;
+    text-align: left;
   }
 
   .timestamp {

@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { getPublicRecentScrobbles, getPublicTopArtists, getPublicTopTracks } from './api.js';
+  import { getPublicRecentScrobbles, getPublicTopArtists, getPublicTopTracks, getPublicTopAlbums } from './api.js';
   import { formatTimestamp } from './utils.js';
 
   export let username;
@@ -9,6 +9,7 @@
   let recentScrobbles = [];
   let topArtists = [];
   let topTracks = [];
+  let topAlbums = [];
   let loading = true;
   let error = null;
 
@@ -23,9 +24,10 @@
       if (currentView === 'recent') {
         recentScrobbles = await getPublicRecentScrobbles(username);
       } else {
-        [topArtists, topTracks] = await Promise.all([
+        [topArtists, topTracks, topAlbums] = await Promise.all([
           getPublicTopArtists(username),
-          getPublicTopTracks(username)
+          getPublicTopTracks(username),
+          getPublicTopAlbums(username)
         ]);
       }
     } catch (err) {
@@ -130,6 +132,25 @@
                     <span class="stats-artist">{track.artist}</span>
                   </div>
                   <span class="stats-count">{track.count} plays</span>
+                </li>
+              {/each}
+            </ol>
+          {/if}
+        </section>
+
+        <section class="stats-section">
+          <h2>Top Albums</h2>
+          {#if topAlbums.length === 0}
+            <p class="no-data">No data yet</p>
+          {:else}
+            <ol class="stats-list">
+              {#each topAlbums as album}
+                <li>
+                  <div class="track-info">
+                    <span class="stats-name">{album.album}</span>
+                    <span class="stats-artist">{album.artist}</span>
+                  </div>
+                  <span class="stats-count">{album.count} plays</span>
                 </li>
               {/each}
             </ol>
@@ -347,11 +368,13 @@
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
+    text-align: left;
   }
 
   .stats-name {
     font-weight: 500;
     color: #333;
+    text-align: left;
   }
 
   .stats-artist {
