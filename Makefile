@@ -5,7 +5,7 @@
 define get_next_version
 $(shell \
 	TODAY=$$(date +%Y%m%d); \
-	LATEST=$$(git tag -l "v$$TODAY.*" 2>/dev/null | sort -V | tail -1); \
+	LATEST=$$(git tag -l "$$TODAY.*" "v$$TODAY.*" 2>/dev/null | sed 's/^v//' | sort -V | tail -1); \
 	if [ -z "$$LATEST" ]; then \
 		echo "$$TODAY.0.0"; \
 	else \
