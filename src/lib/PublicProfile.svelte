@@ -2,6 +2,8 @@
   import { onMount } from 'svelte';
   import { getPublicRecentScrobbles, getPublicTopArtists, getPublicTopTracks, getPublicTopAlbums } from './api.js';
   import { formatTimestamp } from './utils.js';
+  import ThemeToggle from './ThemeToggle.svelte';
+  import { theme } from './theme.js';
 
   export let username;
 
@@ -14,6 +16,7 @@
   let error = null;
 
   onMount(async () => {
+    theme.init();
     await loadData();
   });
 
@@ -47,10 +50,13 @@
   <header>
     <div class="header-content">
       <div>
-        <h1>🎵 {username}</h1>
+        <h1>{username}</h1>
         <p class="tagline">Public scrobble profile</p>
       </div>
-      <a href="/" class="home-btn">Home</a>
+      <div class="header-buttons">
+        <ThemeToggle />
+        <a href="/" class="home-btn">Home</a>
+      </div>
     </div>
 
     <nav>
@@ -167,10 +173,10 @@
   }
 
   header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    background: var(--header-bg);
+    color: var(--header-text);
     padding: 2rem;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-bottom: 2px solid var(--border-color);
   }
 
   .header-content {
@@ -184,29 +190,41 @@
     margin: 0;
     font-size: 2.5rem;
     font-weight: 700;
+    color: var(--header-text);
+  }
+
+  h1 .icon {
+    color: var(--accent-blue);
   }
 
   .tagline {
     margin: 0.5rem 0 0;
     opacity: 0.9;
     font-size: 1.1rem;
+    color: var(--header-text);
+  }
+
+  .header-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
   }
 
   .home-btn {
     padding: 0.5rem 1rem;
     font-size: 0.875rem;
     font-weight: 500;
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(251, 241, 199, 0.1);
+    color: var(--header-text);
+    border: 1px solid rgba(251, 241, 199, 0.3);
     border-radius: 6px;
     text-decoration: none;
     transition: all 0.2s;
   }
 
   .home-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
-    border-color: rgba(255, 255, 255, 0.5);
+    background: rgba(251, 241, 199, 0.2);
+    border-color: rgba(251, 241, 199, 0.5);
   }
 
   nav {
@@ -219,23 +237,23 @@
     padding: 0.75rem 2rem;
     font-size: 1rem;
     font-weight: 500;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
+    border: 2px solid rgba(251, 241, 199, 0.3);
+    background: rgba(251, 241, 199, 0.1);
+    color: var(--header-text);
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s;
   }
 
   nav button:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.5);
+    background: rgba(251, 241, 199, 0.2);
+    border-color: rgba(251, 241, 199, 0.5);
   }
 
   nav button.active {
-    background: white;
-    color: #667eea;
-    border-color: white;
+    background: var(--header-text);
+    color: var(--header-bg);
+    border-color: var(--header-text);
   }
 
   .content {
@@ -247,14 +265,16 @@
   .loading {
     text-align: center;
     padding: 3rem;
-    color: #666;
+    color: var(--text-secondary);
     font-size: 1.125rem;
   }
 
   .error {
     text-align: center;
     padding: 3rem;
-    color: #d32f2f;
+    color: var(--error-text);
+    background: var(--error-bg);
+    border-radius: 8px;
   }
 
   .error p {
@@ -271,7 +291,7 @@
   .scrobbles-section h2 {
     font-size: 1.5rem;
     margin-bottom: 1.5rem;
-    color: #333;
+    color: var(--text-primary);
   }
 
   .scrobbles-list {
@@ -280,15 +300,14 @@
   }
 
   .scrobble-card {
-    background: white;
+    background: var(--bg-tertiary);
     border-radius: 8px;
     padding: 1.25rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.2s;
+    transition: background 0.2s;
   }
 
   .scrobble-card:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    background: var(--bg-hover);
   }
 
   .scrobble-main {
@@ -308,22 +327,22 @@
   .track-name {
     font-size: 1.125rem;
     font-weight: 600;
-    color: #333;
+    color: var(--text-primary);
   }
 
   .artist-name {
     font-size: 1rem;
-    color: #666;
+    color: var(--text-secondary);
   }
 
   .album-name {
     font-size: 0.875rem;
-    color: #999;
+    color: var(--text-tertiary);
   }
 
   .scrobble-time {
     font-size: 0.875rem;
-    color: #999;
+    color: var(--text-tertiary);
     white-space: nowrap;
   }
 
@@ -334,16 +353,15 @@
   }
 
   .stats-section {
-    background: white;
+    background: var(--bg-tertiary);
     border-radius: 8px;
     padding: 1.5rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
   .stats-section h2 {
     font-size: 1.25rem;
     margin-bottom: 1rem;
-    color: #333;
+    color: var(--text-primary);
   }
 
   .stats-list {
@@ -357,7 +375,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 0.75rem 0;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid var(--border-color);
   }
 
   .stats-list li:last-child {
@@ -373,24 +391,24 @@
 
   .stats-name {
     font-weight: 500;
-    color: #333;
+    color: var(--text-primary);
     text-align: left;
   }
 
   .stats-artist {
     font-size: 0.875rem;
-    color: #666;
+    color: var(--text-secondary);
   }
 
   .stats-count {
     font-size: 0.875rem;
-    color: #999;
+    color: var(--text-tertiary);
     font-weight: 500;
   }
 
   .no-data {
     text-align: center;
-    color: #999;
+    color: var(--text-tertiary);
     padding: 2rem;
     font-style: italic;
   }

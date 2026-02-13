@@ -88,11 +88,13 @@
   .loading, .error {
     padding: 2rem;
     text-align: center;
-    color: #666;
+    color: var(--text-secondary);
   }
 
   .error {
-    color: #d32f2f;
+    color: var(--error-text);
+    background: var(--error-bg);
+    border-radius: 8px;
   }
 
   .stats-grid {
@@ -102,7 +104,7 @@
   }
 
   .stat-card {
-    background: #f5f5f5;
+    background: var(--bg-tertiary);
     border-radius: 12px;
     padding: 1.5rem;
   }
@@ -110,7 +112,7 @@
   h3 {
     font-size: 1.25rem;
     margin: 0 0 1rem 0;
-    color: #333;
+    color: var(--text-primary);
   }
 
   .stat-list {
@@ -124,14 +126,14 @@
     align-items: center;
     gap: 1rem;
     padding: 0.75rem;
-    background: white;
+    background: var(--bg-secondary);
     border-radius: 6px;
   }
 
   .rank {
     font-weight: 700;
     font-size: 1.25rem;
-    color: #999;
+    color: var(--text-tertiary);
     min-width: 2rem;
     text-align: center;
   }
@@ -139,7 +141,7 @@
   .name {
     flex: 1;
     font-weight: 500;
-    color: #222;
+    color: var(--text-primary);
     text-align: left;
   }
 
@@ -155,12 +157,12 @@
 
   .track-details .artist {
     font-size: 0.8rem;
-    color: #666;
+    color: var(--text-secondary);
   }
 
   .count {
     font-size: 0.875rem;
-    color: #666;
+    color: var(--text-secondary);
     white-space: nowrap;
   }
 </style>

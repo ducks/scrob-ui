@@ -4,12 +4,15 @@
   import PublicProfile from './lib/PublicProfile.svelte';
   import RecentScrobbles from './lib/RecentScrobbles.svelte';
   import TopStats from './lib/TopStats.svelte';
+  import ThemeToggle from './lib/ThemeToggle.svelte';
   import { auth } from './lib/auth.js';
+  import { theme } from './lib/theme.js';
 
   let currentView = 'recent';
   let route = { type: 'home' };
 
   onMount(() => {
+    theme.init();
     updateRoute();
     // Listen for navigation events
     window.addEventListener('popstate', updateRoute);
@@ -50,11 +53,12 @@
     <header>
       <div class="header-content">
         <div>
-          <h1>🎵 Scrob</h1>
+          <h1>Scrob</h1>
           <p class="tagline">Your personal scrobble tracker</p>
         </div>
         <div class="user-info">
           <span class="username">{$auth.username}</span>
+          <ThemeToggle />
           <button class="logout-btn" on:click={handleLogout}>Log Out</button>
         </div>
       </div>
@@ -96,7 +100,7 @@
       sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background: #fafafa;
+    background: var(--bg-primary);
   }
 
   main {
@@ -104,10 +108,10 @@
   }
 
   header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    background: var(--header-bg);
+    color: var(--header-text);
     padding: 2rem;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-bottom: 2px solid var(--border-color);
   }
 
   .header-content {
@@ -121,12 +125,18 @@
     margin: 0;
     font-size: 2.5rem;
     font-weight: 700;
+    color: var(--header-text);
+  }
+
+  h1 .icon {
+    color: var(--accent-blue);
   }
 
   .tagline {
     margin: 0.5rem 0 0;
     opacity: 0.9;
     font-size: 1.1rem;
+    color: var(--header-text);
   }
 
   .user-info {
@@ -138,23 +148,24 @@
   .username {
     font-weight: 500;
     font-size: 1rem;
+    color: var(--header-text);
   }
 
   .logout-btn {
     padding: 0.5rem 1rem;
     font-size: 0.875rem;
     font-weight: 500;
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(251, 241, 199, 0.1);
+    color: var(--header-text);
+    border: 1px solid rgba(251, 241, 199, 0.3);
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.2s;
   }
 
   .logout-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
-    border-color: rgba(255, 255, 255, 0.5);
+    background: rgba(251, 241, 199, 0.2);
+    border-color: rgba(251, 241, 199, 0.5);
   }
 
   nav {
@@ -167,23 +178,23 @@
     padding: 0.75rem 2rem;
     font-size: 1rem;
     font-weight: 500;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
+    border: 2px solid rgba(251, 241, 199, 0.3);
+    background: rgba(251, 241, 199, 0.1);
+    color: var(--header-text);
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s;
   }
 
   nav button:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.5);
+    background: rgba(251, 241, 199, 0.2);
+    border-color: rgba(251, 241, 199, 0.5);
   }
 
   nav button.active {
-    background: white;
-    color: #667eea;
-    border-color: white;
+    background: var(--header-text);
+    color: var(--header-bg);
+    border-color: var(--header-text);
   }
 
   .content {

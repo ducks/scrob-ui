@@ -55,17 +55,19 @@
   h2 {
     font-size: 1.5rem;
     margin-bottom: 1rem;
-    color: #333;
+    color: var(--text-primary);
   }
 
   .loading, .error, .empty {
     padding: 2rem;
     text-align: center;
-    color: #666;
+    color: var(--text-secondary);
   }
 
   .error {
-    color: #d32f2f;
+    color: var(--error-text);
+    background: var(--error-bg);
+    border-radius: 8px;
   }
 
   .scrobble-list {
@@ -79,13 +81,13 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
-    background: #f5f5f5;
+    background: var(--bg-tertiary);
     border-radius: 8px;
     transition: background 0.2s;
   }
 
   .scrobble-item:hover {
-    background: #ebebeb;
+    background: var(--bg-hover);
   }
 
   .track-info {
@@ -96,27 +98,27 @@
   .track-name {
     font-weight: 600;
     font-size: 1rem;
-    color: #222;
+    color: var(--text-primary);
     margin-bottom: 0.25rem;
     text-align: left;
   }
 
   .artist-name {
     font-size: 0.875rem;
-    color: #666;
+    color: var(--text-secondary);
     text-align: left;
   }
 
   .album-name {
     font-size: 0.75rem;
-    color: #999;
+    color: var(--text-tertiary);
     margin-top: 0.125rem;
     text-align: left;
   }
 
   .timestamp {
     font-size: 0.875rem;
-    color: #999;
+    color: var(--text-tertiary);
     white-space: nowrap;
     margin-left: 1rem;
   }
