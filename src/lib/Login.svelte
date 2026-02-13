@@ -50,7 +50,7 @@
 
 <div class="login-container">
   <div class="login-card">
-    <h1 class="logo">🎵 Scrob</h1>
+    <h1 class="logo">Scrob</h1>
     <p class="tagline">Your personal scrobble tracker</p>
 
     {#if error}
@@ -97,14 +97,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--bg-primary);
   }
 
   .login-card {
-    background: white;
+    background: var(--bg-secondary);
     padding: 3rem;
     border-radius: 16px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    border: 2px solid var(--border-color);
     width: 100%;
     max-width: 25rem;
     margin: 1rem;
@@ -115,19 +115,23 @@
     font-size: 2.5rem;
     font-weight: 700;
     text-align: center;
-    color: #667eea;
+    color: var(--text-primary);
+  }
+
+  .logo .icon {
+    color: var(--accent-blue);
   }
 
   .tagline {
     margin: 0 0 2rem 0;
     text-align: center;
-    color: #666;
+    color: var(--text-secondary);
     font-size: 0.95rem;
   }
 
   .error {
-    background: #ffebee;
-    color: #c62828;
+    background: var(--error-bg);
+    color: var(--error-text);
     padding: 0.75rem 1rem;
     border-radius: 8px;
     margin-bottom: 1.5rem;
@@ -149,13 +153,15 @@
   label {
     font-weight: 600;
     font-size: 0.875rem;
-    color: #333;
+    color: var(--text-primary);
   }
 
   input {
     padding: 0.75rem 1rem;
     font-size: 1rem;
-    border: 2px solid #e0e0e0;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    border: 2px solid var(--border-color);
     border-radius: 8px;
     transition: border-color 0.2s;
   }
@@ -166,7 +172,7 @@
   }
 
   input:disabled {
-    background: #f5f5f5;
+    background: var(--bg-tertiary);
     cursor: not-allowed;
   }
 
@@ -174,21 +180,20 @@
     padding: 0.875rem 1rem;
     font-size: 1rem;
     font-weight: 600;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border: none;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 2px solid var(--border-color);
     border-radius: 8px;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: all 0.2s;
   }
 
   button:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    background: var(--bg-hover);
   }
 
   button:active:not(:disabled) {
-    transform: translateY(0);
+    transform: translateY(1px);
   }
 
   button:disabled {
