@@ -34,14 +34,14 @@ jobs:
       - name: Create release archive
         run: |
           cd dist
-          tar -czf ../scrob-ui-dist.tar.gz .
+          tar -czf ../scrob-ui.tar.gz .
           cd ..
 
       - name: Create Release
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v1
         with:
-          files: scrob-ui-dist.tar.gz
+          files: scrob-ui.tar.gz
           draft: false
           prerelease: false
         env:
